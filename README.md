@@ -165,6 +165,41 @@ Add to `~/.claude/settings.json` (extends the Configuration section above):
 
 ## Troubleshooting
 
+**Debug Mode:**
+
+Enable detailed logging for troubleshooting:
+
+```json
+{
+  "hooks": {
+    "SessionStart": [{
+      "matcher": "*",
+      "hooks": [{
+        "type": "command",
+        "command": "$HOME/.cc-notifier/cc-notifier --debug init"
+      }]
+    }]
+    // Add --debug to all other hooks (notify, cleanup)
+  }
+}
+```
+
+**Debug mode features:**
+- File logging with timestamps: `~/.cc-notifier/cc-notifier.log`
+- Desktop: "[DEBUG]" prefix on notifications
+- Remote: Precise timestamps on push notifications
+- Logs: Hook events, window IDs, idle checks, notification sends
+
+**View logs:**
+```bash
+tail -f ~/.cc-notifier/cc-notifier.log  # Follow in real-time
+cat ~/.cc-notifier/cc-notifier.log      # View entire log
+```
+
+**Disable:** Remove `--debug` flag from hook commands in settings.json
+
+---
+
 **Wrong window focused:**
 - Window ID captured at session start
 - Solution: Restart Claude Code or clear/resume session
@@ -180,6 +215,10 @@ caffeinate -i                # Temporary prevention
 **Hammerspoon window discovery:**
 - Visit Spaces and click windows after Hammerspoon restart
 - Auto-populates during normal use
+
+**Window focus issues:**
+- Try closing and re-opening the terminal/IDE window
+- Apps can get into states where Hammerspoon can't focus them
 
 ## Development
 
